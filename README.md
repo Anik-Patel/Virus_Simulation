@@ -1,13 +1,21 @@
 # Virus_Simulation
 A simple simulation that shows how people get infected from virueses.
-A blue dot is healthy
-A red dot is infected
-A black dot is dead
 
-Each dot has a 80% chance of becoming immune and that chance goes up depending if it is near healthy dots
-They have a 1% chance of getting infected if they are near other infected dots
-They have a 1% chance of dying when infected
+# How to install
+1. [Install Python](https://realpython.com/installing-python/)
+2. Download this repository
+3. Run `main.py`
 
+# Key
+Blue dot  = Healthy
 
- Just run the main file
- :)
+Red dot   = Sick
+
+Black dot = Dead
+
+# Specs
+80%+      Becoming immune. Goes up depending if it is near other healthy dots
+
+1%        Getting infected if near other infected dots
+
+1%<       Dying when infected
