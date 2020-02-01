@@ -53,7 +53,7 @@ y = 500
 count = 0
 for i in range(num):
 	for z in range(num):
-		x += 40
+		x += 20
 		population[count].move_to(x, y)
 		population[count].change_color()
 		
@@ -61,7 +61,7 @@ for i in range(num):
 	wn.update()
 
 	
-	y -= 40
+	y -= 20
 	x = -550
 
 
