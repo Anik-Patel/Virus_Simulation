@@ -5,7 +5,7 @@ A simple simulation that shows how people get infected from virueses.
 1. [Install Python](https://realpython.com/installing-python/)
 2. Download this repository
 3. Navigate to the repository
-4. Run `python3 main.py` or double click the `main.py` file
+4. Run `python3 main.py` or `python main.py` or double click the `main.py` file
 
 Dot|What it means
 --------|--------
