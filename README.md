@@ -15,6 +15,6 @@ Black dot|Dead
 
 Chance|Of what happening
 ------|-----------------
-80%+|Becoming immune. Goes up depending if it is near other healthy dots
-1%|Getting infected if near other infected dots
+10%+|Becoming immune
+10%|Getting infected if near other infected dots
 1%<|Dying when infected
