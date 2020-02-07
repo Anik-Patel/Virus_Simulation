@@ -50,6 +50,9 @@ class Dot(pygame.sprite.Sprite):
             else:
                 self.color = BLUE
 
+            if self.cured == True:
+                self.color = GREEN
+
 
         else:
             self.color = BLACK
@@ -63,7 +66,6 @@ class Dot(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
-
 
 
 
