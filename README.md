@@ -12,6 +12,7 @@ Dot|What it means
 Blue dot|Healthy
 Red dot|Sick
 Black dot|Dead
+Green Dot|Cured, also the path of the plague
 
 Chance|Of what happening
 ------|-----------------
