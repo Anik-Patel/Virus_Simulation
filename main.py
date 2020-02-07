@@ -1,206 +1,156 @@
-import math
-import random
-import time 
-import turtle
+import pygame
 from Dot import Dot
+import random
+import math
+import time
 
 
+GREEN = (20, 255, 140)
+GREY = (210, 210 ,210)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+PURPLE = (255, 0, 255)
+BLUE = (0, 0, 255)
 
-wn = turtle.Screen()
-wn.setup(1100, 1100)
-wn.tracer(0)
+SCREENWIDTH = 370
+SCREENHEIGHT = 370
 
+size = (SCREENWIDTH, SCREENHEIGHT)
+screen = pygame.display.set_mode(size)
+pygame.display.set_caption("Plague")
 
+# This will be a list that will contain all the sprites we intend to use in our game.
+population = pygame.sprite.Group()
 
+x = 10
+y = 10
+clock = pygame.time.Clock()
+for i in range(35):
+    for z in range(35):
+        dot = Dot(BLUE, 9, 9)
+        dot.x = x
+        dot.y = y
+        if random.randint(1, 200) == 1:
+            dot.infected = True
 
+        dot.update_()
+        population.add(dot)
 
 
 
-num = 25
 
-population = []
 
+        x += 10
 
 
-print("Population Size:", str(num*num))
+    x = 10
+    y += 10
+    population.update()
+    population.draw(screen)
 
 
 
 
 
+def get_nearbies(num):
+    t = population.sprites()[1]
+    ng = population.sprites()[0]
+    user = population.sprites()[num]
 
+    x1 = ng.rect.x
+    y1 = ng.rect.y
 
-for i in range(num):
-	for z in range(num):
-		population.append(Dot())
+    x2 = t.rect.x
+    y2 = t.rect.y
 
+    thres = math.hypot(x1-x2, y1-y2)
+    x1 = user.rect.x
+    y1 = user.rect.y
 
-for i in population:
-	i.dot.shapesize(1, 1)
+    nearbies = []
+    if user.infected == True and user.dead == False:
+        count = 0
 
+        for dot in population:
+            x2 = dot.rect.x
+            y2 = dot.rect.y
+            dist = math.hypot(x1-x2, y1-y2)
 
+            if dist <= thres:
+                nearbies.append(count)
 
+            count += 1
 
+        nearbies.pop(0)
+    return nearbies
 
 
 
+def update_all():
+    infection_chance = 30
 
-x = -550
-y = 500
+    infection_chance = round(100 / infection_chance)
+    c = 0
+    for dot in population:
 
+        if dot.infected == True:
+            if random.randint(0, 100) == 1:
+                dot.dead = True
+            if random.randint(0, 10) == 1:
+                dot.cured = True
+                dot.infected = False
 
+        d = get_nearbies(c)
 
-count = 0
-for i in range(num):
-	for z in range(num):
-		x += 20
-		population[count].move_to(x, y)
-		population[count].change_color()
-		
-		count += 1
-	wn.update()
+        for i in d:
+            if random.randint(0, infection_chance) == 1:
+                if population.sprites()[i].cured == False:
+                    population.sprites()[i].infected = True
 
-	
-	y -= 20
-	x = -550
+        c += 1
 
+        dot.update_()
 
 
 
 
-des = population[0].dot.distance(population[1].dot)
 
 
+update_all()
 
-def iterate(num):
 
-	global count
-	if population[num].dead == False:
-		checked = population[num].dot
 
-		count = 0
+carryOn = True
 
-		nearbies = []
-		
-		
-		population[num].change_color()
 
-		
-		for i in population:
+while carryOn:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            carryOn = False
 
-			other = i.dot
-			dis = checked.distance(other)
-			if dis <= des:
-				nearbies.append(count)
 
-			count += 1
 
-		
+    update_all()
 
 
 
-		count = 0
-		
-		if population[num].infected == True:
-			
-			for x in nearbies:
-				if population[x].infected == True:
-					nearbies.pop(count)
 
-				count += 1
 
-			for x in nearbies:
-				population[x].infect()
-				population[x].change_color()
 
-		else:
 
-			for x in nearbies:
-				population[x].cure(80)
-				if population[x].cured == True:
-					population[x].infected == False
+    population.update()
 
 
+    screen.fill(WHITE)
 
 
 
-	
-		
+    population.draw(screen)
 
 
+    pygame.display.flip()
 
-wn.update()
-time.sleep(2)
 
+    clock.tick(60)
 
-
-
-for x in range(1000):
-	n = 0
-	
-	for i in population:
-		iterate(n)
-		i.cure(80)
-		if i.infected == True:
-			c = 100/1
-			c = round(c)
-			if random.randint(0, c) == 1:
-				
-				i.dead = True
-				i.change_color()
-
-
-		n += 1
-
-		#Uncomment This To See the live action
-		'''
-		if n % 25 == 0:
-			wn.update()
-		'''
-		
-
-
-
-	INS = 0
-	ded = 0
-	for i in population:
-		if i.infected == False:
-			INS += 1
-		if i.dead == True:
-			INS += 1 
-			ded += 1
-
-
-
-
-	a = num*num
-	if INS > a-1:
-		break
-
-
-	
-	
-	wn.title(str(a-INS)+" Infected   "+str(INS)+" Not infected   "+str(ded)+" Dead")
-
-	wn.update()
-
-	
-
-
-ded = 0
-for i in population:
-	if i.dead == True:
-		ded += 1
-
-
-print(str(ded), "dead")
-
-
-	
-
-
-
-wn.update()
-
-
-wn.mainloop()
+pygame.quit()
